@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+cd ~/catkin_workspace/src
+
+ln -s ~/Github/Rover_2018_2019/software/ros_packages/mr1718-arm-urdf_export/ mr1718-arm-urdf_export
+ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_arm_moveit_config/ rover_arm_moveit_config
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/ground_station/ ground_station
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/nimbro_topic_transport/ nimbro_topic_transport
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_arm/ rover_arm
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_camera/ rover_camera
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_control/ rover_control
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_main/ rover_main
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_science/ rover_science
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_status/ rover_status
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/rover_odometry/ rover_odometry
+# ln -s ~/Github/Rover_2018_2019/software/ros_packages/zed_wrapper/ zed_wrapper
+
+catkin build
