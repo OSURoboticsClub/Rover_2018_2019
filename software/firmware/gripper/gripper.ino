@@ -2,7 +2,9 @@
 //Settings
 #define AMPMAX 4 // probably can take 6 but 4 is good for safety.
 #define FORWARD 1 //pinch = forward  open = !forward
-
+#define MAXSPEED 500
+#define LIMIT_STEP 10
+#define CURRENT_SCALER 30
 
 
 
@@ -38,6 +40,7 @@ private:
 //general settings
 bool ishomed = false;
 float speed = 0; //0-100?
+bool direction = FORWARD;
 
 //sensor variables
 float currentAMPS = 0;
@@ -87,16 +90,24 @@ void getmodBusUpdate()
 bool home()
 {
   bool homed = false;
+  float buffer = .5;
 
   float averageAmps = 0.0;
   float localAverage = 0.0;
   
+  speed = 50;
+  direction = !FORWARD;
+
   averageAmps = ampAverage.update(currentAMPS);
   localAverage = localAmpAverage.update(currentAMPS);
 
   if(true == ampAverage.full())
   {
-    speed;
+    
+    if((averageAmps + buffer) < localAverage )
+    {
+      homed = true;
+    }
 
   }
   
@@ -105,6 +116,23 @@ bool home()
 
 void limitUpdate()
 {
+  if (AMPMAX < currentAMPS)
+  {
+    currentSpeedLimit -= LIMIT_STEP + (currentAMPS - AMPMAX) * CURRENT_SCALER;
+  }
+  else
+  {
+    currentSpeedLimit += LIMIT_STEP+ (AMPMAX-currentAMPS) * CURRENT_SCALER;
+    
+    if(MAXSPEED < currentSpeedLimit)
+    {
+      currentSpeedLimit = MAXSPEED;
+    }
+  }
+  
+  if (speed>currentSpeedLimit);
+    speed = currentSpeedLimit;
+  
   return;
 }
 void moveMotor()
