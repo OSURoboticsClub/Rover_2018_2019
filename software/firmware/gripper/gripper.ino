@@ -1,10 +1,8 @@
 //Pinouts
+
 //Settings
-#define AMPMAX 4 // probably can take 6 but 4 is good for safety.
 #define FORWARD 1 //pinch = forward  open = !forward
-#define MAXSPEED 500
-#define LIMIT_STEP 10
-#define CURRENT_SCALER 30
+
 
 
 
@@ -39,7 +37,7 @@ private:
 
 //general settings
 bool ishomed = false;
-float speed = 0; //0-100?
+int speed = 0; //0-255
 bool direction = FORWARD;
 
 //sensor variables
@@ -107,6 +105,7 @@ bool home()
     if((averageAmps + buffer) < localAverage )
     {
       homed = true;
+      speed = 0;
     }
 
   }
@@ -116,13 +115,18 @@ bool home()
 
 void limitUpdate()
 {
+  const int AMPMAX = 4; // probably can take 6 but 4 is good for safety.
+  const int MAXSPEED = 255;
+  const int LIMIT_STEP = 10;
+  const int CURRENT_SCALER = 30;
+
   if (AMPMAX < currentAMPS)
   {
     currentSpeedLimit -= LIMIT_STEP + (currentAMPS - AMPMAX) * CURRENT_SCALER;
   }
   else
   {
-    currentSpeedLimit += LIMIT_STEP+ (AMPMAX-currentAMPS) * CURRENT_SCALER;
+    currentSpeedLimit += LIMIT_STEP;
     
     if(MAXSPEED < currentSpeedLimit)
     {
@@ -130,11 +134,12 @@ void limitUpdate()
     }
   }
   
-  if (speed>currentSpeedLimit);
+  if (speed > currentSpeedLimit);
     speed = currentSpeedLimit;
   
   return;
 }
+
 void moveMotor()
 {
    return;
